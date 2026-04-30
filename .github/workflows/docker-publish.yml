@@ -23,10 +23,10 @@ jobs:
 
     # Step 3: Log in to Amazon ECR using AWS CLI
     - name: Log in to Amazon ECR
-      uses: aws-actions/amazon-ecr-login@v1
+      uses: aws-actions/amazon-ecr-login@v2  # Using v2
       with:
-        region: ${{ secrets.AWS_REGION }}  # Ensure region is passed
-
+        registry-type: ecr  # Specify registry type as ECR (for v2)
+        
     # Step 4: Build the Docker image and tag it
     - name: Build Docker image
       run: |
