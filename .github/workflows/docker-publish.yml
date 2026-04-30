@@ -27,13 +27,13 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}  # Use the region from the secrets
+        aws-region: ${{ secrets.AWS_REGION }}  # Region passed here
 
-    # Step 4: Log in to Amazon ECR using AWS CLI
+    # Step 4: Log in to Amazon ECR
     - name: Log in to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v2
       with:
-        registry-type: private  # Use 'private' for AWS ECR
+        registry-type: private  # Specify AWS ECR as the registry type
 
     # Step 5: Build the Docker image and tag it
     - name: Build Docker image
@@ -41,7 +41,7 @@ jobs:
         docker build -t aws-github-docker .
         docker tag aws-github-docker:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/aws-github-docker:latest
 
-    # Step 6: Push the image to ECR
+    # Step 6: Push Docker image to ECR
     - name: Push Docker image to ECR
       run: |
         docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/aws-github-docker:latest
